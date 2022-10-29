@@ -28,6 +28,13 @@ h1 {
   color: #fff
 }
 
+@media (max-width: 375px) {
+  .app {
+    width: 375px;
+    height: 600px;
+  }
+}
+
 .app:before {
   content: '';
   background: url('./assets/sunset.jpg') no-repeat center center/cover;
@@ -38,6 +45,8 @@ h1 {
   left: 0;
   z-index: -1;
 }
+
+
 
 .app .search {
   text-align: center;
@@ -59,7 +68,6 @@ h1 {
 
 .container {
   max-width: 700px;
-  height: 700px;
   margin: auto;
   padding: 0 1rem;
   position: relative;
@@ -68,6 +76,7 @@ h1 {
   flex-direction: column;
   justify-content: space-between;
 }
+
 
 .app .top {
   width: 100%;
