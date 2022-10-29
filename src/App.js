@@ -4,19 +4,31 @@ import axios from "axios";
 function App() {
   const [data, setData] = useState({});
   const [location, setLocation] = useState("");
+  const [errorMesssage, setErrorMessage] = useState("");
 
   const API_KEY = "a390d8b1ae2a2537ed601d9d58ef265e";
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY}&units=metric`;
 
   const searchLocation = (event) => {
     if (event.key === "Enter") {
-      axios.get(url).then((response) => {
-        setData(response.data);
-      });
+      axios
+        .get(url)
+        .catch(function (error) {
+          if (error.response) {
+            setErrorMessage("Invalid Location name");
+          } else if (error.request) {
+            setErrorMessage("Invalid Location name");
+          } else {
+            setErrorMessage("Invalid Location name");
+          }
+        })
+        .then((response) => {
+          setData(response.data);
+        });
       setLocation("");
+      setErrorMessage("");
     }
   };
-
   return (
     <div className="app">
       <div className="search">
@@ -28,6 +40,9 @@ function App() {
           type="text"
         ></input>
       </div>
+      {errorMesssage !== "" && (
+        <h3 className="error-message">{errorMesssage}</h3>
+      )}
       <div className="container">
         <div className="top">
           <div className="location">
@@ -40,13 +55,14 @@ function App() {
             {data.weather ? <p>{data.weather[0].main}</p> : null}
           </div>
         </div>
-
-        {data.name != undefined && (
+        {data.name !== undefined && (
           <div className="bottom">
             <div className="feels">
               {data.main ? (
                 <p className="bold">{data.main.feels_like.toFixed()} ºC</p>
-              ) : null}
+              ) : (
+                { errorMesssage }
+              )}
               <p>Feels like</p>
             </div>
             <div className="humidity">
@@ -54,7 +70,9 @@ function App() {
               <p>Humidity</p>
             </div>
             <div className="wind">
-              {data.wind ? <p className="bold">{data.wind.speed} Km/h</p> : null}
+              {data.wind ? (
+                <p className="bold">{data.wind.speed} Km/h</p>
+              ) : null}
               <p>Wind Speed</p>
             </div>
           </div>

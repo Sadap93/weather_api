@@ -117,3 +117,8 @@ h1 {
 .bold {
   font-weight: 700;
 }
+
+.error-message{
+  color: red;
+  text-align: center;
+}
